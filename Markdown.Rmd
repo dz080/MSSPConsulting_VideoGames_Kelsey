@@ -7,6 +7,36 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 ```
 
+# Visualizations
+```{r}
+# read in the data
+game_df <- read_excel("TopSelling_MSSP_July28_GameData.xlsx")
+participant_df <- read_excel("TopSelling_MSSP_July28_ParticipantData.xlsx")
+```
+
+```{r}
+# create a subset of the game_df with just Num variables
+game_df_num_subset <- game_df %>%
+  select(StudyGame, GameName, NumFam, NumOT, NumIV, NumSN, NumSP, NumCG)
+
+# pivot data to prep for visualizations 
+game_df_num_subset_longer <- game_df_num_subset %>% 
+  pivot_longer(cols = c(NumOT, NumIV, NumSN, NumSP, NumCG), 
+               names_to = "NumType", 
+               values_to = "Count"
+  )
+```
+
+```{r}
+# stacked bar chart for the 5 game mechanics
+ggplot(data = game_df_num_subset_longer, 
+       aes(x = StudyGame, y = Count, fill = NumType)) + 
+   geom_bar(position="stack", stat="identity")
+```
 
