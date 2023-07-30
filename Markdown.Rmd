@@ -37,10 +37,10 @@ game_df_num_subset_longer <- game_df_num_subset %>%
 # stacked bar chart for the 5 game mechanics
 ggplot(data = game_df_num_subset_longer, 
        aes(x = StudyGame, y = Count, fill = NumType)) + 
-  geom_bar(position="stack", stat="identity") +
+  geom_bar(position="stack", stat="identity", width = 0.75) +
   coord_flip() +
   scale_fill_brewer(palette = "YlGnBu", guide=guide_legend(reverse=T)) +
-  theme(text = element_text(size=5),
+  theme(text = element_text(size=7),
         legend.position = "bottom", legend.box = "horizontal") +
   xlab("StudyGame") + 
   labs(title = "Count of Video Game Mechanics") 
@@ -49,10 +49,10 @@ ggplot(data = game_df_num_subset_longer,
 # order by length of bars
 ggplot(data = game_df_num_subset_longer, 
       aes(x = reorder(StudyGame, Count, sum), y = Count, fill = NumType)) +
-  geom_bar(position="stack", stat="identity") +
+  geom_bar(position="stack", stat="identity", width = 0.75) +
   coord_flip() +
   scale_fill_brewer(palette = "YlGnBu", guide=guide_legend(reverse=T)) +
-  theme(text = element_text(size=5),
+  theme(text = element_text(size=7),
         legend.position = "bottom", legend.box = "horizontal") +
   xlab("StudyGame") + 
   labs(title = "Count of Video Game Mechanics") 
