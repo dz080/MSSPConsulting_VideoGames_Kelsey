@@ -11,6 +11,8 @@ library(readxl)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(pander)
+library(factoextra)
 ```
 
 # Visualizations
@@ -23,7 +25,7 @@ participant_df <- read_excel("TopSelling_MSSP_July28_ParticipantData.xlsx")
 ```{r}
 # create a subset of the game_df with just Num variables
 game_df_num_subset <- game_df %>%
-  select(StudyGame, GameName, NumFam, NumOT, NumIV, NumSN, NumSP, NumCG)
+  dplyr::select(StudyGame, GameName, NumFam, NumOT, NumIV, NumSN, NumSP, NumCG)
 
 # pivot data to prep for visualizations 
 game_df_num_subset_longer <- game_df_num_subset %>% 
@@ -59,4 +61,26 @@ ggplot(data = game_df_num_subset_longer,
   xlab("StudyGame") + 
   labs(title = "Count of Video Game Mechanics") 
 ```
+
+```{r}
+# run a principal components analysis (PCA) to see which games are similar
+game_df_pca <- game_df %>%
+  dplyr::select(StudyGame, starts_with("Pct"))
+
+pca_results <- prcomp(game_df_pca[, -1], scale = FALSE) 
+pander(summary(pca_results))
+```
+
+```{r}
+# we'd like to visualize the PCA results
+fviz_pca_biplot(pca_results, 
+                repel = TRUE,
+                col.var = "deepskyblue",
+                title = "Figure 1: Biplot", geom="point")
+
+fviz_eig(pca_results,
+         title = "Figure 2: Scree Plot")
+
+```
+
 
