@@ -36,7 +36,10 @@ game_df_num_subset_longer <- game_df_num_subset %>%
 ```{r}
 # stacked bar chart for the 5 game mechanics
 ggplot(data = game_df_num_subset_longer, 
-       aes(x = StudyGame, y = Count, fill = NumType)) + 
-   geom_bar(position="stack", stat="identity")
+       aes(x = sort(StudyGame), y = Count, fill = NumType)) + 
+  geom_bar(position="stack", stat="identity") +
+  coord_flip() +
+  scale_fill_brewer(palette = "YlGnBu") +
+  theme(text = element_text(size=5))
 ```
 
